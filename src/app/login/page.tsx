@@ -20,25 +20,40 @@ export default function LoginPage() {
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    console.log("LOGIN FUNCTION STARTED");
+
     setError("");
     setLoading(true);
 
     try {
+      console.log("SENDING LOGIN REQUEST");
+
       const result = await signIn.email({
         email,
         password,
         callbackURL: "/dashboard/manage-events",
       });
 
+      console.log("LOGIN RESULT:", result);
+
       if (result.error) {
+        console.error("LOGIN ERROR:", result.error);
         setError(result.error.message || "Login failed");
         return;
       }
 
+      console.log("LOGIN SUCCESS");
+
       router.push("/dashboard/manage-events");
       router.refresh();
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      console.error("LOGIN CATCH ERROR:", err);
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -134,9 +149,11 @@ export default function LoginPage() {
 
           <div className="my-5 flex items-center gap-3">
             <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
+
             <span className="text-sm text-gray-400 dark:text-gray-500">
               OR
             </span>
+
             <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
           </div>
 
