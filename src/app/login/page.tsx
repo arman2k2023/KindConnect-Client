@@ -24,6 +24,7 @@ export default function LoginPage() {
 
     setError("");
     setLoading(true);
+    console.log("CHECK AFTER LOADING");
 
     try {
       console.log("SENDING LOGIN REQUEST");
