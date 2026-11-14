@@ -1,11 +1,11 @@
-
 import { createAuthClient } from "better-auth/react";
 import { jwtClient } from "better-auth/client/plugins";
 
 export const authClient = createAuthClient({
     baseURL:
-        process.env.NEXT_PUBLIC_BETTER_AUTH_URL ||
-        "http://localhost:5000",
+        typeof window !== "undefined"
+            ? window.location.origin
+            : "https://kindconnect-client.vercel.app",
 
     fetchOptions: {
         credentials: "include",
@@ -14,9 +14,4 @@ export const authClient = createAuthClient({
     plugins: [jwtClient()],
 });
 
-export const {
-    signIn,
-    signUp,
-    signOut,
-    useSession,
-} = authClient;
+export const { signIn, signUp, signOut, useSession } = authClient;
